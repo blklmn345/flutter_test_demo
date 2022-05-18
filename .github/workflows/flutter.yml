@@ -1,4 +1,4 @@
-name: test
+name: flutter test
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
   FLUTTER_VERSION: "3.0.0"
 
 jobs:
-  test:
+  flutter_test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -37,14 +37,14 @@ jobs:
 
       - name: Test
         run: |
-          flutter test --coverage --coverage-path lcov_ci.info > test_report.log
+          flutter test --coverage --coverage-path lcov_ci.info
 
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: always()
         with:
           name: "flutter test"
-          path: "test_report.log"
+          path: "reports/test-results.json"
           reporter: "flutter-json"
           fail-on-error: "false"
 

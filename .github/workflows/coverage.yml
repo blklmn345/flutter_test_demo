@@ -5,6 +5,7 @@ on:
     branches:
       - main
 
+
 jobs:
   generate:
     name: Generate coverage report

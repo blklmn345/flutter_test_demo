@@ -25,14 +25,8 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      # - name: Cache Flutter dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: /opt/hostedtoolcache/flutter
-      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
-
       - name: setup flutter
-      - uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"

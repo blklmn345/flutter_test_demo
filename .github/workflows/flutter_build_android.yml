@@ -69,10 +69,10 @@ jobs:
         with:
           name: android
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "14.19.3"
-          cache: npm
+      # - uses: actions/setup-node@v2
+      #   with:
+      #     node-version: "14.19.3"
+      #     cache: npm
 
       # Firebase にデプロイ
       - name: Firebase App Distribution

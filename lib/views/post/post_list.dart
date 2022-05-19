@@ -86,10 +86,12 @@ class _PostListTile extends ConsumerWidget {
   ) {
     return Card(
       child: ListTile(
-        leading: Text(user?.username ?? 'Unknown'),
+        leading: SizedBox(
+          width: 48,
+          child: Text(user?.username ?? 'Unknown'),
+        ),
         title: Text(item.title),
         subtitle: Text(item.body),
-        trailing: Text(item.userId.toString()),
         onTap: () => Navigator.of(context).pushNamed(
           Routes.postDetail,
           arguments: item.id.toString(),

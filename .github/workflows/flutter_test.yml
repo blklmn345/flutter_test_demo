@@ -1,4 +1,4 @@
-name: flutter test
+name: Flutter test and generate code coverage
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
   FLUTTER_VERSION: "3.0.0"
 
 jobs:
-  flutter_test:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 

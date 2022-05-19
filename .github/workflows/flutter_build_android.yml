@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+env:
+  FLUTTER_VERSION: "3.0.0"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,13 +35,31 @@ jobs:
           path: /Users/runner/hostedtoolcache/flutter
           key: ${{ runner.OS }}-flutter-install-cache
 
+      - name: setup flutter
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.0.0"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
+          cache: true
+          cache-key: flutter # optional, change this to force refresh cache
+          cache-path: ${{ runner.tool_cache }}/flutter # optional, change this to specify the cache path
+          architecture: x64 # optional, x64 or arm64
 
       - name: flutter version
         run: flutter --version
+
+      - name: Cache pubspec dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ env.FLUTTER_HOME }}/.pub-cache
+            **/.packages
+            **/.flutter-plugins
+            **/.flutter-plugin-dependencies
+            **/.dart_tool/package_config.json
+          key: build-pubspec-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            build-pubspec-
 
       - name: flutter dependencies install
         run: flutter pub get

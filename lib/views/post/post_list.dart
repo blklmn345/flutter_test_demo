@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_demo/i18n/strings.g.dart';
 import 'package:flutter_test_demo/model/response/post.dart';
 import 'package:flutter_test_demo/model/response/user.dart';
 import 'package:flutter_test_demo/repository/post_repository.dart';
@@ -28,7 +29,7 @@ class PostList extends ConsumerWidget {
     final postsAndUser = ref.watch(_postAndUserProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Posts'),
+        title: Text(t.hello(name: 'Tester')),
       ),
       body: postsAndUser.when(
         data: (postsAndUser) {

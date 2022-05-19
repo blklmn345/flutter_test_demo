@@ -20,13 +20,10 @@ class UserRepository extends RepositoryBase {
 
   Future<List<User>> getUsers() async {
     final res = await client.get('https://jsonplaceholder.typicode.com/users');
-    if (res.data == null ||
-        res.data == 'null' ||
-        res.data == '""' ||
-        res.data!.isEmpty) {
+    final json = jsonDecode(res.data ?? '');
+    if (json == null || json.isEmpty == true) {
       return [];
     }
-    final json = jsonDecode(res.data!);
     return (json as List<dynamic>)
         .map((e) => User.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -35,12 +32,10 @@ class UserRepository extends RepositoryBase {
   Future<User?> getUser(int id) async {
     final res =
         await client.get('https://jsonplaceholder.typicode.com/users/$id');
-    if (res.data == null ||
-        res.data == 'null' ||
-        res.data == '""' ||
-        res.data!.isEmpty) {
+    final json = jsonDecode(res.data ?? '');
+    if (json == null || json.isEmpty == true) {
       return null;
     }
-    return User.fromJson(jsonDecode(res.data!) as Map<String, dynamic>);
+    return User.fromJson(json as Map<String, dynamic>);
   }
 }

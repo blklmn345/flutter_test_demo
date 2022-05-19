@@ -22,13 +22,10 @@ class PostRepository extends RepositoryBase {
 
   Future<List<Post>> getPosts() async {
     final res = await client.get('https://jsonplaceholder.typicode.com/posts');
-    if (res.data == null ||
-        res.data == 'null' ||
-        res.data == '""' ||
-        res.data!.isEmpty) {
+    final json = jsonDecode(res.data ?? '');
+    if (json == null || json.isEmpty == true) {
       return [];
     }
-    final json = jsonDecode(res.data!);
     return (json as List<dynamic>)
         .map((e) => Post.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -37,12 +34,10 @@ class PostRepository extends RepositoryBase {
   Future<Post?> getPost(int id) async {
     final res =
         await client.get('https://jsonplaceholder.typicode.com/posts/$id');
-    if (res.data == null ||
-        res.data == 'null' ||
-        res.data == '""' ||
-        res.data!.isEmpty) {
+    final json = jsonDecode(res.data ?? '');
+    if (json == null || json.isEmpty == true) {
       return null;
     }
-    return Post.fromJson(jsonDecode(res.data!) as Map<String, dynamic>);
+    return Post.fromJson(json as Map<String, dynamic>);
   }
 }

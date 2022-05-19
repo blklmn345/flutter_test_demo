@@ -1,4 +1,4 @@
-name: flutter test
+name: Flutter test and generate code coverage
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
   FLUTTER_VERSION: "3.0.0"
 
 jobs:
-  flutter_test:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -20,16 +20,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v2
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
         with:
-          path: /opt/hostedtoolcache/flutter
-          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
+          access_token: ${{ github.token }}
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v1
+      - name: setup flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+          cache-key: flutter # optional, change this to force refresh cache
+          cache-path: ${{ runner.tool_cache }}/flutter # optional, change this to specify the cache path
+          architecture: x64 # optional, x64 or arm64
+
+      - name: Cache pubspec dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ env.FLUTTER_HOME }}/.pub-cache
+            **/.packages
+            **/.flutter-plugins
+            **/.flutter-plugin-dependencies
+            **/.dart_tool/package_config.json
+          key: build-pubspec-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            build-pubspec-
 
       - name: Install dependencies
         run: |

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test_demo/routes/router.dart';
+import 'package:flutter_test_demo/utils/boot_manager.dart';
 import 'package:flutter_test_demo/views/post/post_list.dart';
 
-void main() {
+void main() async {
+  await BootManager.configureDependencies();
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test_demo/model/response/post.dart';
+import 'package:flutter_test_demo/repository/repository_base.dart';
 import 'package:flutter_test_demo/services/api_client.dart';
 
 final postsRepoProvider = Provider(
@@ -16,10 +17,8 @@ final postDetailProvider = FutureProvider.autoDispose.family<Post?, int>(
   (ref, id) => ref.watch(postsRepoProvider).getPost(id),
 );
 
-class PostRepository {
-  final ApiClient client;
-
-  PostRepository(this.client);
+class PostRepository extends RepositoryBase {
+  PostRepository(super.client);
 
   Future<List<Post>> getPosts() async {
     final res = await client.get('https://jsonplaceholder.typicode.com/posts');
